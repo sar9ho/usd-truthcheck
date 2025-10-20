@@ -2,8 +2,8 @@
 <meta charset="utf-8">
 <title>usd-truthcheck report</title>
 <style>
-  body{font:14px/1.4 system-ui,Segoe UI,Arial;margin:24px}
-  header{display:flex;gap:24px;align-items:center;margin-bottom:16px}
+  body{font:14px/1.45 system-ui,Segoe UI,Arial;margin:24px}
+  header{display:flex;gap:24px;align-items:flex-start;margin-bottom:16px}
   img.thumb{height:180px;border:1px solid #ddd;border-radius:8px}
   table{border-collapse:collapse;width:100%;margin-top:16px}
   th,td{border:1px solid #e5e5e5;padding:8px;text-align:left}
@@ -16,12 +16,19 @@
     <h1 style="margin:0">USD Truth-Checker</h1>
     <div>Review: <code>data/samples/teapot.usda</code></div>
     <div>Final: <code>data/samples/teapot_variant.usda</code></div>
-    <div>SSIM: <b>0.6847</b> <span class="bad">LOW</span></div>
+    <div>SSIM: <b>0.5941</b> <span class="bad">LOW</span></div>
+    
+      <div>Fixed SSIM: <b>1.0000</b></div>
+      <div>Fix layer: <code>truth_fix.usda</code></div>
+    
   </div>
   <div>
-    <img class="thumb" src="out\review.png" title="review">
-    <img class="thumb" src="out\final.png" title="final">
-    <img class="thumb" src="out\final.diff.png" title="diff">
+    <img class="thumb" src="review.png" title="review">
+    <img class="thumb" src="final.png" title="final">
+    <img class="thumb" src="final.diff.png" title="diff">
+    
+      <img class="thumb" src="final_fixed.png" title="final (fixed)">
+    
   </div>
 </header>
 

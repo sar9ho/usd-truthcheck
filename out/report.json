@@ -1,9 +1,9 @@
 {
   "review_stage": "data/samples/teapot.usda",
   "final_stage": "data/samples/teapot_variant.usda",
-  "ssim": 0.684654176235199,
   "review_img": "out\\review.png",
   "final_img": "out\\final.png",
+  "ssim": 0.5941324830055237,
   "usdrecord": true,
   "scene_diffs": [
     {
@@ -16,7 +16,15 @@
       }
     }
   ],
-  "fix_layer": "out\\truth_fix.usda",
+  "renderer": "Storm",
+  "camera": "/World/Cam",
+  "width": 800,
+  "threshold": 0.95,
+  "color_correction": "sRGB",
+  "complexity": "medium",
   "fixed_img": "out\\final_fixed.png",
-  "fixed_ssim": 1.0
+  "fixed_ssim": 1.0,
+  "fix_layer": "out\\truth_fix.usda",
+  "pass_if_fixed": true,
+  "fixed_ok": true
 }

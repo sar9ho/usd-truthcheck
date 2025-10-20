@@ -17,7 +17,6 @@ def Xform "World" {
                 token outputs:surface
             }
         }
-
         def Material "GreyMat" {
             token outputs:surface.connect = </World/Looks/GreyMat/Shader.outputs:surface>
             def Shader "Shader" {
@@ -32,11 +31,13 @@ def Xform "World" {
     def Xform "Geom" {
         def Sphere "Ball" ( prepend apiSchemas = ["MaterialBindingAPI"] ) {
             double radius = 1.0
+            color3f[] primvars:displayColor = [(0.9, 0.2, 0.2)]
             rel material:binding = </World/Looks/RedMat>
         }
 
         def Cube "Floor" ( prepend apiSchemas = ["MaterialBindingAPI"] ) {
             double size = 6
+            color3f[] primvars:displayColor = [(0.5, 0.5, 0.5)]
             rel material:binding = </World/Looks/GreyMat>
             uniform token visibility = "invisible"
             matrix4d xformOp:transform = (
@@ -50,8 +51,8 @@ def Xform "World" {
     }
 
     def Scope "Lights" {
-        def DistantLight "Sun" {
-            float intensity = 3000
+        def DomeLight "Sky" {
+            float intensity = 100
             color3f color = (1, 1, 1)
         }
     }

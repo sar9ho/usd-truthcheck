@@ -38,6 +38,7 @@ def Xform "World" {
         def Cube "Floor" ( prepend apiSchemas = ["MaterialBindingAPI"] ) {
             double size = 6
             rel material:binding = </World/Looks/GreyMat>
+            uniform token visibility = "invisible"
             matrix4d xformOp:transform = (
                 (1,0,0,0),
                 (0,1,0,0),

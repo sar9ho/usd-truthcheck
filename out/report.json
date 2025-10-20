@@ -1,7 +1,19 @@
 {
-  "stage": "data/samples/teapot.usda",
-  "ssim": 1.0,
-  "review": "out\\review.png",
-  "final": "out\\final.png",
-  "usdrecord": false
+  "review_stage": "data/samples/teapot.usda",
+  "final_stage": "data/samples/teapot_variant.usda",
+  "ssim": 0.684654176235199,
+  "review_img": "out\\review.png",
+  "final_img": "out\\final.png",
+  "usdrecord": true,
+  "scene_diffs": [
+    {
+      "path": "/World/Geom/Floor",
+      "diff": {
+        "visibility": {
+          "a": "inherited",
+          "b": "invisible"
+        }
+      }
+    }
+  ]
 }

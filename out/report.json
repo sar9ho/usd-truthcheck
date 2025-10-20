@@ -15,5 +15,8 @@
         }
       }
     }
-  ]
+  ],
+  "fix_layer": "out\\truth_fix.usda",
+  "fixed_img": "out\\final_fixed.png",
+  "fixed_ssim": 1.0
 }

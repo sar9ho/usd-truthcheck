@@ -22,12 +22,15 @@ def run_cmd(cmd):
         print(p.stderr)
     return p.returncode == 0
 
-def draft_render(stage_path: str, out_png: str, renderer: str | None = "Storm", width=640):
+def draft_render(stage_path: str, out_png: str, renderer: str | None = "Storm",
+                 width=640, session_layer: str | None = None):
     exe = usdrecord_path()
     if exe:
         cmd = [exe]
         if renderer:
-            cmd += ["--renderer", renderer]   # valid choices: "Storm", "GL"
+            cmd += ["--renderer", renderer]          # valid: "Storm", "GL"
+        if session_layer:
+            cmd += ["--sessionLayer", session_layer]
         cmd += ["--imageWidth", str(width), "--defaultTime", stage_path, out_png]
         return run_cmd(cmd)
     # Fallback gradient if usdrecord missing
@@ -39,7 +42,6 @@ def draft_render(stage_path: str, out_png: str, renderer: str | None = "Storm", 
     rgb = np.concatenate([img, pad], axis=-1)
     Image.fromarray((rgb * 255).astype(np.uint8)).save(out_png)
     return True
-
 
 def load_img(path):
     return np.asarray(Image.open(path).convert("RGB"), dtype=np.float32) / 255.0
@@ -82,8 +84,32 @@ def main():
         "usdrecord": have_usdrecord(),
         "scene_diffs": sg_diffs
     }
+
+    # Optional: author a fix layer and re-render with it applied to FINAL
+    if sg_diffs:
+        from core.fix_author import author_fix_layer
+        fix_path = str(OUT / "truth_fix.usda")
+        fix_layer = author_fix_layer(fix_path, sg_diffs)
+        fixed_png = str(OUT / "final_fixed.png")
+        draft_render(final_stage, fixed_png, renderer="Storm", width=640, session_layer=fix_layer)
+        fixed_score = ssim_diff(a_png, fixed_png)
+        report.update({
+            "fix_layer": fix_layer,
+            "fixed_img": fixed_png,
+            "fixed_ssim": fixed_score
+        })
+
+    # Write JSON
     Path("out/report.json").write_text(json.dumps(report, indent=2))
-    print(f"SSIM={score:.4f}  report=out/report.json  usdrecord={'yes' if have_usdrecord() else 'no'}  pxr=yes")
+
+    # Write HTML
+    from report.html_report import write_html
+    html_path = write_html("out/report.html", report)
+
+    # Summary line
+    fixed_txt = f"  fixed={report.get('fixed_ssim'):.4f}" if "fixed_ssim" in report else ""
+    print(f"SSIM={score:.4f}{fixed_txt}  report={html_path}  usdrecord={'yes' if have_usdrecord() else 'no'}  pxr=yes")
 
 if __name__ == "__main__":
     main()
+
